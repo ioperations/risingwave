@@ -76,11 +76,10 @@ impl ExchangeSource for GrpcExchangeSource {
 
     fn take_data(&mut self) -> Self::TakeDataFuture<'_> {
         async {
-            let res = match self.stream.next().await {
+            let task_data = match self.stream.next().await {
                 None => return Ok(None),
-                Some(r) => r,
+                Some(r) => r?,
             };
-            let task_data = res?;
             let data = DataChunk::from_protobuf(task_data.get_record_batch()?)?.compact();
             trace!(
                 "Receiver taskOutput = {:?}, data = {:?}",
