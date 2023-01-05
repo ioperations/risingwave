@@ -293,7 +293,7 @@ async fn read(
         }
         metrics.get_ios.fetch_add(1, Ordering::Relaxed);
 
-        tokio::task::consume_budget().await;
+        //tokio::task::consume_budget().await;
     }
 }
 
@@ -340,6 +340,6 @@ async fn write(
         metrics.insert_ios.fetch_add(1, Ordering::Relaxed);
         metrics.insert_bytes.fetch_add(bs, Ordering::Relaxed);
 
-        tokio::task::consume_budget().await;
+        // tokio::task::consume_budget().await;
     }
 }
